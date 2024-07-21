@@ -1,5 +1,6 @@
 package com.example.servicea;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,9 @@ public class ServiceAApplication {
 @RestController
 class ServiceAController {
     private final RestTemplate restTemplate;
+    
+    @Value("${service-b.url}")
+    private String serviceBUrl;
 
     public ServiceAController(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -23,7 +27,7 @@ class ServiceAController {
 
     @GetMapping("/data")
     public String getData() {
-        String serviceBResponse = restTemplate.getForObject("http://service-b.myapp.svc.cluster.local:8081/info", String.class);
+        String serviceBResponse = restTemplate.getForObject(serviceBUrl + "/info", String.class);
         return "Data from Service B: " + serviceBResponse;
     }
 }
