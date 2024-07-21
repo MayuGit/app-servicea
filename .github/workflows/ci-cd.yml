@@ -25,7 +25,9 @@ jobs:
         java-version: '17'
 
     - name: Build with Maven
-      run: mvn clean package
+      run: |
+        cd servicea
+        mvn clean package
 
     - name: Log in to Docker Hub
       run: echo $DOCKER_HUB_ACCESS_TOKEN | docker login -u $DOCKER_HUB_USERNAME --password-stdin
